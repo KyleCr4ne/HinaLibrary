@@ -6,7 +6,7 @@ namespace hina {
         T vector_scalar_product(const std::vector<T> &vec_1, const std::vector<T> &vec_2) {
             if (vec_1.size() != vec_2.size()) {
                 std::cerr << "Vectors in scalar product must be the same size" << std::endl;
-                return;
+                return -1;
             }
 
             T product = 0.0;
