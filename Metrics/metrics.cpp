@@ -28,9 +28,10 @@ namespace hina {
 
         template <typename T>
         T BCE_loss(const std::vector<T> &target_values, const std::vector<T> &received_values) {
+            const T EPS = 0.0001;
             T sum_logg_diff = 0.0;
             for (size_t i = 0; i < target_values.size(); ++i) {
-                sum_logg_diff += target_values[i] * std::log(received_values[i]) + (1 - target_values[i]) * std::log(1 - received_values[i]);
+                sum_logg_diff += target_values[i] * std::log(received_values[i] + EPS) + (1 - target_values[i]) * std::log(1 - received_values[i] + EPS);
             }
             return - sum_logg_diff / target_values.size();
         }
