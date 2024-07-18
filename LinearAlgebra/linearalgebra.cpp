@@ -22,7 +22,7 @@ namespace hina {
             std::vector<T> product(objects_matrix.size());
 
             for (size_t i = 0; i < objects_matrix.size(); ++i) {
-                product[i] = vector_scalar_product(objects_matrix[i], weights[i]);
+                product[i] = hina::linearalgebra::vector_scalar_product(objects_matrix[i], weights);
             }
 
             return product;
