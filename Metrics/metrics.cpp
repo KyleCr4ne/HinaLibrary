@@ -35,5 +35,15 @@ namespace hina {
             }
             return - sum_logg_diff / target_values.size();
         }
+
+        template <typename T>
+        T accuracy_score(const std::vector<T> &target_values, const std::vector<T> &received_values) {
+            T counter = 0.0;
+            for (size_t i = 0; i < target_values.size(); ++i) {
+                counter += (target_values[i] == received_values[i] ? 1.0 : 0.0);
+            }
+
+            return counter / target_values.size();
+        }
     }
 }

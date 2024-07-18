@@ -17,5 +17,8 @@ namespace hina {
 
         template <typename T>
         T BCE_loss(const std::vector<T> &target_values, const std::vector<T> &received_values);
+
+        template <typename T>
+        T accuracy_score(const std::vector<T> &target_values, const std::vector<T> &received_values);
     }
 }
