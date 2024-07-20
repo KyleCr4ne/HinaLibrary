@@ -44,5 +44,19 @@ namespace hina {
             std::vector<T> predict_proba(const std::vector<std::vector<T>> &x_test);
             T gini(const std::vector<std::pair<std::vector<T>, P>> &cur_split);
         };
+
+        template <typename T>
+        class DecisionTreeRegressor : public BaseDecisionTree<T, T> {
+            public:
+            T min_dispersion_to_split = 0.0001;
+            DecisionTreeRegressor() {};
+            DecisionTreeRegressor(size_t max_depth) {this->max_tree_depth = max_depth;};
+            DecisionTreeRegressor(size_t max_depth, T min_dispersion_to_split_) {this->max_tree_depth = max_depth; this->min_dispersion_to_split = min_dispersion_to_split_;};
+            void fit(const std::vector<std::vector<T>> &x_train, const std::vector<T> &y_train) override;
+            std::vector<T> predict(const std::vector<std::vector<T>> &x_test) override;
+            Node<T, T>* tree_builder(size_t cur_depth, const std::vector<std::pair<std::vector<T>, T>> &cur_data) override;
+            T dispersion(const std::vector<std::pair<std::vector<T>, T>> &cur_split);
+            T get_average(const std::vector<std::pair<std::vector<T>, T>> &cur_split);
+        };
     }
 }
