@@ -16,6 +16,7 @@ Writing this library allowed me to delve deeper into the knowledge of this inter
 * [LossGradients](#lossgradients)
 * [SGD optimizer for linear models](#linear-sgd-optimizer)
 * [Linear SGD Regression](#linear-sgd-regression)
+* [Binary Logistic Regression](#binary-logistic-regression)
 
 ***
 #### The main header file[](###the-main-header-file)
@@ -131,8 +132,10 @@ T  hina::metrics::accuracy_score(const  std::vector<T> &target_values, const  st
 ```cpp
 template <typename  T>
 std::vector<std::vector<T>> hina::metrics::softmax(const  std::vector<std::vector<T>> &X);
-  ```
+```
+
 $softmax([x_{11}, ..., x_{1m}], ..., [x_{l1}, ..., x_{lm}])_{c\in m} = \frac{1}{l} \Sigma_{i}^{l}\frac{exp(x_{lc})}{\Sigma_{k}^{m}exp(x_{lk})}$
+
 **Cross entropy loss function**
 ```cpp
 template <typename  T>
