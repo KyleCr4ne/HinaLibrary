@@ -35,5 +35,17 @@ namespace hina {
             void fit(const std::vector<std::vector<T>>& x_train, const std::vector<P>& y_train) override;    
             std::vector<T> predict(const std::vector<std::vector<T>>& x_test) override;
         };
+
+        template <typename T = double, typename P = double>
+        class GBDTClassifier : public BaseGBDT<T, P, hina::decision_tree::DecisionTreeRegressor<T>> {
+            public:
+            std::unordered_map<size_t, std::vector<hina::decision_tree::DecisionTreeRegressor<T>>> models; // {class_0 : models, class_1 : models, ..}
+            size_t n_classes = 0;
+            GBDTClassifier() {};
+            GBDTClassifier(size_t n_estimators_, size_t max_tree_depth_, bool show_logs_) {this->n_estimators = n_estimators_; this->max_tree_depth = max_tree_depth_; this->show_logs = show_logs_;};
+
+            void fit(const std::vector<std::vector<T>>& x_train, const std::vector<P>& y_train) override;    
+            std::vector<T> predict(const std::vector<std::vector<T>>& x_test) override;
+        };
     }
 }
