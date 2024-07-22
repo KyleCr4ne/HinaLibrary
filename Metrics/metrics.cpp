@@ -45,5 +45,34 @@ namespace hina {
 
             return counter / target_values.size();
         }
+
+        template <typename T>
+        std::vector<std::vector<T>> softmax(const std::vector<std::vector<T>> &X) {
+            std::vector<std::vector<T>> softmax_result(X.size());
+            for (size_t i = 0; i < X.size(); ++i) {
+                T sm_exp = 0.0;
+                for (size_t j = 0; j < X[i].size(); ++j) {
+                    sm_exp += std::exp(X[i][j]);
+                }
+                for (size_t j = 0; j < X[i].size(); ++j) {
+                    softmax_result[i].push_back(std::exp(X[i][j]) / sm_exp);
+                }
+            }
+            return softmax_result;
+        }
+
+        template <typename T>
+        T cross_entopy_loss(const std::vector<std::vector<T>> &target_probability_distribution, const std::vector<std::vector<T>> & received_probability_distribution) {
+            const T EPS = 0.0001;
+            T cross_entopy = 0.0;
+            for (size_t i = 0; i < target_probability_distribution.size(); ++i) {
+                T cross_entopy_by_sample = 0.0;
+                for (size_t j = 0; j < target_probability_distribution[i].size(); ++j) {
+                    cross_entopy_by_sample -= (target_probability_distribution[i][j] == 0.0 ? 0.0 : std::log(received_probability_distribution[i][j] + EPS));
+                }
+                cross_entopy += cross_entopy_by_sample / target_probability_distribution.size();
+            }
+            return cross_entopy;
+        }
     }
 }
