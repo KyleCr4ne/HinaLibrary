@@ -9,3 +9,5 @@
 #include "./RandomForest/random_forest.cpp"
 #include "./RandomForest/random_forest_classifier.cpp"
 #include "./RandomForest/random_forest_regressor.cpp"
+#include "./GradientBoosting/gbdt_regressor.cpp"
+#include "./GradientBoosting/gbdt_classifier.cpp"
