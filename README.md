@@ -233,3 +233,59 @@ template <typename T>
 std::vector<T> hina::linear_models::BinaryLogisticRegression<T>::predict_proba(const  std::vector<std::vector<T>> &x_test);
 ```
 ****
+
+#### DecisionTree[](#decisiontree)
+A greedy strategy is used to build decision trees. At each step, branching tries to get an information gain. For regression trees, the criterion is the variance of targets in the subtree, and for classification trees - the gini criterion.
+
+The node of the tree is represented as a class:
+```cpp
+template <typename  T, typename  P>
+class  Node {
+public:
+size_t  split_feature_idx  =  0;
+T  treshold  =  0.0;
+bool  is_leaf  =  false;
+P  label; // Double if its regression tree, int else.
+T  label_proba;
+Node*  left_child  =  nullptr;
+Node*  right_child  =  nullptr;
+};
+```
+We can define the maximum depth of tree. 
+
+The main function of tree is **tree_builder**, which recursively builds a tree and returns its root.
+```cpp
+template <typename  T, typename  P  = int>
+hina::decision_tree::DecisionTreeClassifier<T, P>
+```
+and
+```cpp
+template <typename  T>
+hina::decision_tree::DecisionTreeRegressor<T>
+```
+contain methods:
+```cpp
+template <typename  T, typename  P>
+void hina::decision_tree::BaseDecisionTree<T, P>::fit(const  std::vector<std::vector<T>> &x_train, const  std::vector<P> &y_train);
+template  <typename T,  typename P>
+std::vector<P> hina::decision_tree::BaseDecisionTree<T, P>predict(const  std::vector<std::vector<T>> &x_test);
+```
+****
+#### RandomForest[](#randomforest)
+The random forest method is an ensemble on decision trees using bootstrap and allocation of a random feature subspace for each tree. 
+
+One of the features of this method is the possibility of parallel calculations. In my implementation, parallel calculations on threads are also used to build each tree.
+
+We can choose the maximum depth of trees (**max_tree_depth**) and number of estimators (**n_estimators**). 
+```cpp
+template <typename  T  = double, typename  P  = double>
+hina::tree_ensemble::RandomForestRegressor<T, P> rfr;
+hina::tree_ensemble::RandomForestClassifier<T, P> rfc;
+```
+And it also has methods **fit** and **predict**. 
+```cpp
+template <typename  T  = double, typename  P  = double, typename  DecisionTreeType  =  hina::decision_tree::DecisionTreeRegressor<T>>
+void hina::decision_tree::BaseRandomForest<T, P>>::fit(const  std::vector<std::vector<T>>&  x_train, const  std::vector<P>&  y_train);
+std::vector<T> hina::decision_tree::BaseRandomForest<T, P>>::predict(const  std::vector<std::vector<T>>&  x_test);
+```
+****
