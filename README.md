@@ -17,6 +17,8 @@ Writing this library allowed me to delve deeper into the knowledge of this inter
 * [SGD optimizer for linear models](#linear-sgd-optimizer)
 * [Linear SGD Regression](#linear-sgd-regression)
 * [Binary Logistic Regression](#binary-logistic-regression)
+* [DecisionTree](#decisiontree)
+* [RandomForest](#randomforest)
 
 ***
 #### The main header file[](###the-main-header-file)
@@ -134,7 +136,7 @@ template <typename  T>
 std::vector<std::vector<T>> hina::metrics::softmax(const  std::vector<std::vector<T>> &X);
 ```
 
-$softmax([x_{11}, ..., x_{1m}], ..., [x_{l1}, ..., x_{lm}])_{c\in m} = \frac{1}{l} \Sigma_{i}^{l}\frac{exp(x_{lc})}{\Sigma_{k}^{m}exp(x_{lk})}$
+$$softmax([x_{11}, ..., x_{1m}], ..., [x_{l1}, ..., x_{lm}])_{c\in m} = \frac{1}{l} \Sigma_{i}^{l}\frac{exp(x_{lc})}{\Sigma_{k}^{m}exp(x_{lk})}$$
 
 **Cross entropy loss function**
 ```cpp
