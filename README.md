@@ -132,7 +132,7 @@ T  hina::metrics::accuracy_score(const  std::vector<T> &target_values, const  st
 template <typename  T>
 std::vector<std::vector<T>> hina::metrics::softmax(const  std::vector<std::vector<T>> &X);
   ```
-  $softmax([x_{11}, ..., x_{1m}], ..., [x_{l1}, ..., x_{lm}])_{c\in m} = \frac{1}{l} \Sigma_{i}^{l}\frac{exp(x_{lc})}{\Sigma_{k}^{m}exp(x_{lk})}$
+$softmax([x_{11}, ..., x_{1m}], ..., [x_{l1}, ..., x_{lm}])_{c\in m} = \frac{1}{l} \Sigma_{i}^{l}\frac{exp(x_{lc})}{\Sigma_{k}^{m}exp(x_{lk})}$
 **Cross entropy loss function**
 ```cpp
 template <typename  T>
