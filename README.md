@@ -19,6 +19,7 @@ Writing this library allowed me to delve deeper into the knowledge of this inter
 * [Binary Logistic Regression](#binary-logistic-regression)
 * [DecisionTree](#decisiontree)
 * [RandomForest](#randomforest)
+* [Gradient boosted decision trees](#gradient-boosted-decision-trees)
 
 ***
 #### The main header file[](###the-main-header-file)
@@ -289,5 +290,55 @@ And it also has methods **fit** and **predict**.
 template <typename  T  = double, typename  P  = double, typename  DecisionTreeType  =  hina::decision_tree::DecisionTreeRegressor<T>>
 void hina::decision_tree::BaseRandomForest<T, P>>::fit(const  std::vector<std::vector<T>>&  x_train, const  std::vector<P>&  y_train);
 std::vector<T> hina::decision_tree::BaseRandomForest<T, P>>::predict(const  std::vector<std::vector<T>>&  x_test);
+```
+****
+
+#### Gradient boosted decision trees[](#gradient-boosted-decision-trees)
+The base params of GBDT are maximum tree depth, number of estimators (base models - trees) and learning rate (**set 0.1**). 
+
+Gradient boosting over decision trees consistently builds a new tree based on the gradient of the optimized loss function. For the regression problem, the mean squared loss function is used, in fact, allowing each new tree T to be trained on the difference between the true target values and those predicted at T-1 step. For the classification task, M trees are built at each step, each of which is responsible for its own class. And the cross entropy is optimized. Softmax is used to get answers for classification tasks. 
+
+```cpp
+template <typename  T  = double, typename  P  = double>
+hina::tree_ensemble::GBDTRegressor<T, P> reg(size_t  n_estimators_, size_t  max_tree_depth_, bool  show_logs_);
+hina::tree_ensemble::GBDTClassifier<T, P> clf(size_t  n_estimators_, size_t  max_tree_depth_, bool  show_logs_);
+```
+```cpp
+template <typename  T  = double, typename  P  = double, typename  DecisionTreeType  =  hina::decision_tree::DecisionTreeRegressor<T>>
+void hina::decision_tree::BaseGBDT<T, P, DecisionTreeType>>::fit(const  std::vector<std::vector<T>>&  x_train, const  std::vector<P>&  y_train);
+std::vector<T> hina::decision_tree::BaseGBDT<T, P, DecisionTreeType>>::predict(const  std::vector<std::vector<T>>&  x_test);
+```
+Param **show_logs** is used to show loss value on each step of fitting.
+
+You can see examples for classification:
+  ```cpp
+#include  "../Hina.hpp"
+#include  <vector>
+
+int  main() {
+	hina::dataloader::FileData<long  double, long  double>  dloader;
+	dloader.read_csv("./train.csv", false);
+	dloader.train_test_split(0.8);
+	hina::tree_ensemble::GBDTClassifier<long  double, long  double>  model(50, 4, true); // show_logs = true
+	model.fit(dloader.x_train, dloader.y_train);
+	return  0;
+}
+```
+
+And regression:
+  ```cpp
+#include  "../Hina.hpp"
+#include  <vector>
+
+int  main() {
+	hina::dataloader::FileData<double, double>  dloader;
+	dloader.read_csv("./Battery_RUL.csv", false);
+	dloader.train_test_split(0.8);
+	hina::tree_ensemble::GBDTRegressor  model(50, 3, true); // show_logs = true
+	model.fit(dloader.x_train, dloader.y_train);
+	std::vector<double>  ans  =  model.predict(dloader.x_test);
+	std::cout  <<  "Mean absolute score on test part: "  <<  hina::metrics::mean_absolute_error(dloader.y_test, ans) <<  std::endl;
+	return  0;
+}
 ```
 ****
